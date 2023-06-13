@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import ToDoListsRepository from "./todo-lists.repository";
-import ToDoListProfile from "./profiles/todolist.profile";
+import ToDoListProfile from "./profiles/todo-list.profile";
 import ToDoListsService from "./todo-list.service";
 import ToDoListController from "./todo-list.controller";
 

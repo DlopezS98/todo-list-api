@@ -1,11 +1,32 @@
+import { Mapper } from "@automapper/core";
 import { Injectable } from "@nestjs/common";
+import { InjectMapper } from "@automapper/nestjs";
 
-import ToDoList, { IToDoList } from "./entities/todolist.entity";
+import ToDoList, { IToDoList } from "./entities/todo-list.entity";
+import IBaseRepository from "src/shared/interfaces/ibase.repository";
 
 @Injectable()
-export default class ToDoListsRepository {
+export default class ToDoListsRepository implements IBaseRepository {
+
+  private readonly todoLists: IToDoList[] = TODO_LISTS;
+
+  // @ts-ignore
+  constructor(@InjectMapper() private readonly mapper: Mapper) { }
+
+  getServerDate(): Promise<Date> {
+    return Promise.resolve(new Date(Date.now()));
+  }
+
+  create(toDoList: IToDoList): Promise<ToDoList> {
+    const todoList: ToDoList = ToDoList.fromJson(toDoList);
+    this.todoLists.push(todoList);
+    return Promise.resolve(todoList);
+  }
+
   get(): Promise<ToDoList[]> {
-    const todoLists: ToDoList[] = TODO_LISTS.map(ToDoList.fromJson);
+    // self mapping
+    // const todoLists: ToDoList[] = this.mapper.mapArray(this.todoLists, ToDoList, ToDoList);
+    const todoLists: ToDoList[] = this.mapper.mapArray(this.todoLists as ToDoList[], ToDoList);
     return Promise.resolve(todoLists);
   }
 }

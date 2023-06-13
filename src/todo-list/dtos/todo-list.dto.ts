@@ -8,7 +8,7 @@ export default class ToDoListDto {
   @AutoMap()
   description: string = '';
   @AutoMap()
-  dueDate: Date | null = null;
+  dueDate!: Date | null;
   @AutoMap()
   createdAt: Date = new Date();
   @AutoMap()
@@ -17,8 +17,11 @@ export default class ToDoListDto {
   lastUpdate!: Date;
 }
 
-export class CreateToDoList {
-  title = '';
-  description = '';
+export class CreateToDoListDto {
+  @AutoMap()
+  title: string = '';
+  @AutoMap()
+  description: string = '';
+  @AutoMap()
   dueDate: Date | null = null;
 }

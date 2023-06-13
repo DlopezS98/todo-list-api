@@ -17,9 +17,9 @@ export default class ToDoList implements IToDoList {
   @AutoMap()
   description: string = '';
   @AutoMap()
-  dueDate: Date | null = null;
+  dueDate!: Date | null;
   @AutoMap()
-  createdAt: Date = new Date();
+  createdAt!: Date;
   @AutoMap()
   updatedAt: Date | null = null;
   
@@ -33,5 +33,16 @@ export default class ToDoList implements IToDoList {
     entity.updatedAt = todoList.updatedAt;
 
     return entity;
+  }
+
+  toDomain(): IToDoList {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      dueDate: this.dueDate,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }
