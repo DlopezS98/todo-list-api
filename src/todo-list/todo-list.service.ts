@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
 import { Mapper } from "@automapper/core";
-
-import ToDoListDto, { CreateToDoListDto } from "./dtos/todo-list.dto";
-import ToDoListsRepository from "./todo-lists.repository";
-import ToDoList from "./entities/todo-list.entity";
+import { Injectable } from "@nestjs/common";
 import { InjectMapper } from "@automapper/nestjs";
+
+import ToDoList from "./entities/todo-list.entity";
+import ToDoListsRepository from "./todo-lists.repository";
+import ToDoListDto, { CreateToDoListDto } from "./dtos/todo-list.dto";
 
 @Injectable()
 export default class ToDoListsService {
@@ -22,6 +22,7 @@ export default class ToDoListsService {
 
   async create(creationalDto: CreateToDoListDto): Promise<ToDoListDto> {
     const toDoListEntity: ToDoList = this.mapper.map(creationalDto, CreateToDoListDto, ToDoList);
+    toDoListEntity.createdAt = await this.toDoListsRepository.getServerDate();
     await this.toDoListsRepository.create(toDoListEntity.toDomain());
     const toDoListDto: ToDoListDto = this.mapper.map(toDoListEntity, ToDoList, ToDoListDto);
     return toDoListDto;

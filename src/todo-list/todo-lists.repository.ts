@@ -18,9 +18,9 @@ export default class ToDoListsRepository implements IBaseRepository {
   }
 
   create(toDoList: IToDoList): Promise<ToDoList> {
-    const todoList: ToDoList = ToDoList.fromJson(toDoList);
-    this.todoLists.push(todoList);
-    return Promise.resolve(todoList);
+    this.todoLists.push(toDoList);
+    const entity: ToDoList = this.mapper.map(toDoList as ToDoList, ToDoList);
+    return Promise.resolve(entity);
   }
 
   get(): Promise<ToDoList[]> {

@@ -22,18 +22,6 @@ export default class ToDoList implements IToDoList {
   createdAt!: Date;
   @AutoMap()
   updatedAt: Date | null = null;
-  
-  static fromJson(todoList: IToDoList) {
-    const entity = new ToDoList();
-    entity.id = todoList.id;
-    entity.title = todoList.title;
-    entity.description = todoList.description;
-    entity.dueDate = todoList.dueDate;
-    entity.createdAt = todoList.createdAt;
-    entity.updatedAt = todoList.updatedAt;
-
-    return entity;
-  }
 
   toDomain(): IToDoList {
     return {
